@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-electron/
+release/
+release-check/
+.vite/
+*.log
+models/*
+!models/.gitkeep
+imported-documents/*
+!imported-documents/.gitkeep
+user-data/
+.tmp/
+.superpowers/

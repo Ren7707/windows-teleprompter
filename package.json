@@ -1,0 +1,68 @@
+{
+  "name": "windows-teleprompter",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist-electron/electron/main.js",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "electron": "tsc -p tsconfig.electron.json && electron .",
+    "start:test": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-test.ps1",
+    "test": "vitest run",
+    "build": "tsc && vite build && tsc -p tsconfig.electron.json",
+    "package": "electron-builder --win --config.directories.output=%TEMP%\\teleprompter-release"
+  },
+  "dependencies": {
+    "mammoth": "^1.12.0",
+    "node-cpal": "^0.1.1",
+    "pdf-parse": "^2.4.5",
+    "react": "latest",
+    "react-dom": "latest",
+    "sherpa-onnx-node": "^1.13.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "electron": "latest",
+    "electron-builder": "latest",
+    "tailwindcss": "^4.3.1",
+    "typescript": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  },
+  "build": {
+    "appId": "com.local.windows-teleprompter",
+    "productName": "Teleprompter",
+    "compression": "maximum",
+    "electronLanguages": [
+      "zh-CN",
+      "en-US",
+      "ja"
+    ],
+    "afterPack": "build/afterPack.cjs",
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/download-models.ps1",
+        "to": "download-models.ps1"
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh",
+      "artifactName": "${productName} Setup ${version}.${ext}"
+    }
+  }
+}
