@@ -2,6 +2,7 @@ import { app, BrowserWindow, Menu, dialog, globalShortcut, ipcMain } from 'elect
 import fsSync from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { LEGACY_IMPORT_MARKER } from '../src/core/documentDeletion';
 import { getDocumentKind, makeImportedFileName, makeRenamedImportedFileName } from '../src/core/documents';
 import { defaultSettings, type AppSettings } from '../src/core/settings';
@@ -22,8 +23,8 @@ function rendererUrl(windowName?: string) {
     return `http://127.0.0.1:5173${windowName ? `?window=${windowName}` : ''}`;
   }
 
-  const file = path.join(__dirname, '../dist/index.html');
-  return `file://${file}${windowName ? `?window=${windowName}` : ''}`;
+  const file = path.join(app.getAppPath(), 'dist/index.html');
+  return `${pathToFileURL(file).toString()}${windowName ? `?window=${windowName}` : ''}`;
 }
 
 function createMainWindow() {

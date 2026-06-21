@@ -23,7 +23,7 @@
 
 从 GitHub Release 下载最新版安装包：
 
-[Teleprompter v0.1.0](https://github.com/Ren7707/windows-teleprompter/releases/tag/v0.1.0)
+[Teleprompter v0.1.1](https://github.com/Ren7707/windows-teleprompter/releases/tag/v0.1.1)
 
 安装过程中可以选择是否下载本地语音识别模型。如果不下载模型，应用仍可启动并使用手动提词功能，但语音识别和自动翻页可能无法正常运行。
 
