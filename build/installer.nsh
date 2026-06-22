@@ -7,6 +7,7 @@ Var InstallModels
 !endif
 
 !macro customInit
+  !insertmacro setInstallModePerUser
   StrCpy $InstallModels ${BST_CHECKED}
 !macroend
 
@@ -22,10 +23,10 @@ Function ModelOptionsPage
     Abort
   ${EndIf}
 
-  ${NSD_CreateLabel} 0 0 100% 50u "语音识别依赖本地模型文件。建议下载安装本地模型，否则提词器仍可使用，但语音识别和自动翻页可能无法正常运行。模型会下载到 C:\Temp\teleprompter-models\bilingual。"
+  ${NSD_CreateLabel} 0 0 100% 50u "Speech recognition requires local model files. Downloading the model is recommended. Without it, the app can still run, but speech recognition and auto paging may not work. Models will be saved to C:\Temp\teleprompter-models\bilingual."
   Pop $0
 
-  ${NSD_CreateCheckbox} 0 62u 100% 14u "下载并安装本地语音识别模型（推荐，约 340 MB）"
+  ${NSD_CreateCheckbox} 0 62u 100% 14u "Download local speech recognition model (recommended, about 340 MB)"
   Pop $InstallModelsCheckbox
 
   ${If} $InstallModels == ${BST_CHECKED}
@@ -41,7 +42,7 @@ Function ModelOptionsLeave
   ${NSD_GetState} $InstallModelsCheckbox $InstallModels
 
   ${If} $InstallModels == ${BST_UNCHECKED}
-    MessageBox MB_ICONEXCLAMATION|MB_OK "你选择了不安装本地模型。程序可以正常启动，但语音识别和自动翻页功能可能无法正常运行。"
+    MessageBox MB_ICONEXCLAMATION|MB_OK "You chose not to install the local model. The app can still start, but speech recognition and auto paging may not work."
   ${EndIf}
 FunctionEnd
 !endif
@@ -51,7 +52,7 @@ FunctionEnd
     DetailPrint "Downloading offline speech recognition model..."
     ExecWait 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$INSTDIR\resources\download-models.ps1"' $0
     ${If} $0 != 0
-      MessageBox MB_ICONEXCLAMATION|MB_OK "本地模型下载失败。程序可以正常启动，但语音识别和自动翻页功能可能无法正常运行。你可以稍后手动下载模型到 C:\Temp\teleprompter-models\bilingual。"
+      MessageBox MB_ICONEXCLAMATION|MB_OK "Local model download failed. The app can still start, but speech recognition and auto paging may not work. You can manually download models later to C:\Temp\teleprompter-models\bilingual."
     ${EndIf}
   ${EndIf}
 !macroend
